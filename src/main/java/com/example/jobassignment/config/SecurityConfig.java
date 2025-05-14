@@ -48,6 +48,7 @@ public class SecurityConfig {
                         .accessDeniedHandler(jwtDeniedHandler)
                 )
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/swagger", "/swagger-ui.html", "/swagger-ui/**", "/api-docs", "/api-docs/**", "/v3/api-docs/**").permitAll()
                         .requestMatchers("/signup").permitAll()
                         .requestMatchers("/login").permitAll()
                         .requestMatchers("/admin/**").hasAuthority(UserRole.Authority.ADMIN)

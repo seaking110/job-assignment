@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: job-assignment
+
+jwt:
+  secret:
+    key: ${JWT_SECRET_KEY}
+
+admin:
+  password: ${ADMIN_PASSWORD}
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html

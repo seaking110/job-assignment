@@ -23,6 +23,12 @@ Spring Security와 JWT(Json Web Token)를 활용한 **간단한 인증 및 권�
 
 ---
 
+## API 명세서
+- `POST /signup` : 회원가입
+- `POST /login` : 로그인 및 토큰 발급
+- `PATCH /admin/users/{userId}/roles` : 관리자 권한 부여
+- `GET /users` : 전체 사용자 조회
+  
 ## 실행 방법
 
 ### 1. Swagger UI 접속

@@ -6,8 +6,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import java.util.List;
-
 @Getter
 @AllArgsConstructor
 public class SignUpResponse {
@@ -18,7 +16,7 @@ public class SignUpResponse {
     private String nickname;
 
     @Schema(description = "사용자 권한", example = "ROLE_USER")
-    private UserRole roles;
+    private UserRole role;
 
     public static SignUpResponse of(User user) {
         return new SignUpResponse(user.getUsername(), user.getNickname(), user.getRole());

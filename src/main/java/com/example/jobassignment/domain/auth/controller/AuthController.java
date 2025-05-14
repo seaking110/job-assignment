@@ -1,7 +1,6 @@
 package com.example.jobassignment.domain.auth.controller;
 
 import com.example.jobassignment.Exception.ErrorResponse;
-import com.example.jobassignment.domain.auth.dto.AuthUser;
 import com.example.jobassignment.domain.auth.dto.request.LoginRequest;
 import com.example.jobassignment.domain.auth.dto.request.SignUpRequest;
 import com.example.jobassignment.domain.auth.dto.response.LoginResponse;
@@ -13,6 +12,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -28,11 +28,11 @@ public class AuthController {
     @PostMapping("/signup")
     @Operation(summary = "회원가입", description = "사용자 정보를 입력하여 회원가입 수행")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "회원가입 성공"),
+            @ApiResponse(responseCode = "201", description = "회원가입 성공"),
             @ApiResponse(responseCode = "400", description = "이미 존재하는 사용자", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     })
     private ResponseEntity<SignUpResponse> signup(@RequestBody SignUpRequest signUpRequest) {
-        return ResponseEntity.ok(authService.signup(signUpRequest));
+        return ResponseEntity.status(HttpStatus.CREATED).body(authService.signup(signUpRequest));
     }
 
     @PostMapping("/login")

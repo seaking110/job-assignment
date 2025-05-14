@@ -1,6 +1,5 @@
 package com.example.jobassignment.config;
 
-import com.example.jobassignment.domain.auth.entity.User;
 import com.example.jobassignment.domain.auth.enums.UserRole;
 import com.example.jobassignment.domain.auth.repository.UserRepository;
 import jakarta.annotation.PostConstruct;
@@ -14,7 +13,7 @@ import org.springframework.stereotype.Component;
 public class AdminInitializer {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    @Value("${ADMIN_PASSWORD}")
+    @Value("${admin.password}")
     private String password;
 
     @PostConstruct

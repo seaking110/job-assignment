@@ -3,7 +3,6 @@ package com.example.jobassignment.domain.auth.service;
 import com.example.jobassignment.Exception.CustomException;
 import com.example.jobassignment.Exception.ErrorCode;
 import com.example.jobassignment.config.JwtUtil;
-import com.example.jobassignment.domain.auth.dto.AuthUser;
 import com.example.jobassignment.domain.auth.dto.request.LoginRequest;
 import com.example.jobassignment.domain.auth.dto.request.SignUpRequest;
 import com.example.jobassignment.domain.auth.dto.response.LoginResponse;
@@ -12,12 +11,10 @@ import com.example.jobassignment.domain.auth.entity.User;
 import com.example.jobassignment.domain.auth.enums.UserRole;
 import com.example.jobassignment.domain.auth.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor

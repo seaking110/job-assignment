@@ -47,14 +47,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     setAuthentication(claims);
                 }
             } catch (SecurityException | MalformedJwtException e) {
-                log.error("Invalid JWT signature, 유효하지 않는 JWT 서명입니다.", e);
-                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "유효하지 않는 JWT 서명입니다.");
-            } catch (ExpiredJwtException eje) {
-                log.error("Expired JWT token, 만료된 JWT 토큰 입니다.", eje);
-                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "만료된 JWT 토큰 입니다.");
-            } catch (UnsupportedJwtException uje) {
-                log.error("Unsupported JWT token, 지원되지 않는 JWT 토큰 입니다.", uje);
-                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "지원되지 않는 JWT 토큰 입니다.");
+                writeJsonError(response, HttpServletResponse.SC_UNAUTHORIZED,
+                        "INVALID_TOKEN", "유효하지 않는 JWT 서명입니다.");
+            } catch (ExpiredJwtException e) {
+                writeJsonError(response, HttpServletResponse.SC_UNAUTHORIZED,
+                        "EXPIRED_TOKEN", "만료된 JWT 토큰입니다.");
+            } catch (UnsupportedJwtException e) {
+                writeJsonError(response, HttpServletResponse.SC_BAD_REQUEST,
+                        "UNSUPPORTED_TOKEN", "지원되지 않는 JWT 토큰입니다.");
+            } catch (IllegalArgumentException e) {
+                writeJsonError(response, HttpServletResponse.SC_BAD_REQUEST,
+                        "EMPTY_TOKEN", "JWT 토큰이 존재하지 않습니다.");
             }
         }
         filterChain.doFilter(request, response);
@@ -68,5 +71,22 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         AuthUser authUser = new AuthUser(userId, username, userRole);
         JwtAuthenticationToken authenticationToken = new JwtAuthenticationToken(authUser);
         SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+    }
+
+    private void writeJsonError(HttpServletResponse response, int status, String code, String message) throws IOException {
+        response.setStatus(status);
+        response.setContentType("application/json;charset=UTF-8");
+        response.setCharacterEncoding("UTF-8");
+
+        String body = String.format("""
+            {
+              "error": {
+                "code": "%s",
+                "message": "%s"
+              }
+            }
+        """, code, message);
+
+        response.getWriter().write(body);
     }
 }

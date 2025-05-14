@@ -62,4 +62,19 @@ public class JwtUtil {
                 .parseClaimsJws(token)
                 .getBody();
     }
+
+    // 만료된 토큰 생성
+    public String createTokenWithCustomExpiration(Long userId, String username, UserRole role) {
+        Date now = new Date();
+        Date expiredAt = new Date(now.getTime() - 5000);
+        return BEARER_PREFIX +
+                Jwts.builder()
+                        .setSubject(String.valueOf(userId))
+                        .claim("username", username)
+                        .claim("userRole", role.name())
+                        .setExpiration(expiredAt)
+                        .setIssuedAt(new Date(now.getTime() - 10000))
+                        .signWith(key, signatureAlgorithm)
+                        .compact();
+    }
 }
